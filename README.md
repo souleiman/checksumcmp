@@ -8,8 +8,8 @@ Requirements
 * github.com/souleiman/checksum
 
 ## Installation
-    # Use go get to install checksumcmp
-    go get github.com/souleiman/checksumcmp
+    # Use go install to install checksumcmp
+    go install github.com/souleiman/checksumcmp
 
 Usage
 ------------
