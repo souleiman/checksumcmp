@@ -9,6 +9,8 @@ import (
     "crypto/sha1"
     "crypto/md5"
     "hash"
+
+    "github.com/souleiman/checksum"
 )
 
 func CompareFile(function, file, fingerprint string, u_exec bool) string {
@@ -19,7 +21,7 @@ func CompareFile(function, file, fingerprint string, u_exec bool) string {
     if u_exec {
         hash, err = onExec(function, file)
     } else {
-        raw, err = computeSum(hashmap[function], file)
+        raw, err = checksum.Compute(hashmap[function], file)
         hash = fmt.Sprintf("%x", raw)
     }
 
