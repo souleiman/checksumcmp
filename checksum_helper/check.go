@@ -4,11 +4,6 @@ import (
     "strings"
     "io/ioutil"
     "fmt"
-    "crypto/sha512"
-    "crypto/sha256"
-    "crypto/sha1"
-    "crypto/md5"
-    "hash"
 
     "github.com/souleiman/checksum"
 )
@@ -21,14 +16,13 @@ func CompareFile(function, file, fingerprint string, u_exec bool) string {
     if u_exec {
         hash, err = onExec(function, file)
     } else {
-        raw, err = checksum.Compute(hashmap[function], file)
+        raw, err = checksum.Compute(checksum.HashMap[function], file)
         hash = fmt.Sprintf("%x", raw)
     }
 
     if err != nil {
         return fmt.Sprintf("Error on %s - %s", file, err.Error())
     }
-
 
     if hash == fingerprint {
         return fmt.Sprintf("Fingerprint of %s matches.", file)
@@ -78,13 +72,4 @@ func onExec(function, file string) (string, error) {
 
     values := strings.Fields(string(output))
     return values[0], nil
-}
-
-var hashmap map[string]hash.Hash = map[string]hash.Hash { // No pun intended :P
-    "md5sum": md5.New(),
-    "sha1sum": sha1.New(),
-    "sha224sum": sha256.New224(),
-    "sha256sum": sha256.New(),
-    "sha384sum": sha512.New384(),
-    "sha512sum": sha512.New(),
 }
