@@ -4,8 +4,9 @@ Check file fingerprint based on provided hash value using shell or internal comm
 
 Requirements
 ------------
-* Go 1.4.x or greater
-* github.com/souleiman/checksum
+* Go 1.4.x or greater - http://golang.org/
+* checksum - https://github.com/souleiman/checksum
+* checksum_util [OPTIONAL] - https://github.com/souleiman/checksum_util
 
 ## Installation
     # Use go install to install checksumcmp
