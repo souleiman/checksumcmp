@@ -17,7 +17,14 @@ func main() {
     exec := args["--use-exec"].(bool)
     if args["-c"].(bool) {
         file := args["<file>"].(string)
-        check.CompareFiles(file, exec)
+
+        results := check.CompareFiles(file, exec)
+
+        if results != nil {
+            for _, line := range results {
+                fmt.Println(line)
+            }
+        }
     } else {
         function, file, hash := args["<function>"], args["<file>"], args["<hash>"]
         fmt.Println(check.CompareFile(function.(string), file.(string), hash.(string), exec))

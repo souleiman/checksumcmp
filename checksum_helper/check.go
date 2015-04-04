@@ -30,15 +30,16 @@ func CompareFile(function, file, fingerprint string, u_exec bool) string {
     return fmt.Sprintf("Fingerprint of %s does not match.", file)
 }
 
-func CompareFiles(file string, u_exec bool) {
+func CompareFiles(file string, u_exec bool) []string {
     content, err := ioutil.ReadFile(file)
 
     if err != nil {
         fmt.Println(err.Error())
-        return
+        return nil
     }
 
     split := strings.Split(strings.TrimSpace(string(content)), "\n")
+    var result []string
 
     for index, line := range split {
         line_index := index + 1
@@ -50,17 +51,19 @@ func CompareFiles(file string, u_exec bool) {
         fields := strings.Fields(line)
 
         if len(fields) != 3 {
-            fmt.Printf("Unable to parse line %d.\n", line_index)
+            result = append(result, fmt.Sprintf("Unable to parse line %d.", line_index))
             continue
         }
 
         if !strings.HasSuffix(fields[0], "sum") {
-            fmt.Printf("unknown hashing command at line %d.\n", line_index)
+            result = append(result, fmt.Sprintf("Unknown hashing command at line %d.", line_index))
             continue
         }
 
-        fmt.Println(CompareFile(fields[0], fields[1], fields[2], u_exec))
+        result = append(result, CompareFile(fields[0], fields[1], fields[2], u_exec))
     }
+
+    return result
 }
 
 func onExec(function, file string) (string, error) {
